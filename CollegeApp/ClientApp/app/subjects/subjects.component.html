@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="m-3" *ngFor="let subject of subjects">
+    <h1>{{subject.name}}</h1>
+    <h2>Teacher: {{subject.teacher.name}}</h2>
+    <h2>Born: {{subject.teacher.birthday | date}}</h2>
+    <h2>Salary: {{subject.teacher.salary}}</h2>
+    <h2>Number of Students: {{subject.studentSubjects.length}}</h2>
+    <p>Students:</p>
+    <ul>
+      <li *ngFor="let studentSubject of subject.studentSubjects"> {{studentSubject.student.name}} -
+        {{studentSubject.grade}} %
+      </li>
+    </ul>
+  </div>
+</div>

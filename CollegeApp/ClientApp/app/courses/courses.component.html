@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="m-3" *ngFor="let course of courses">
+    <h1>{{course.name}} <button class="mr-2" (click)="edit(course)" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="delete(course.id)" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button></h1>
+    <h2>Number of Teachers: 0</h2>
+    <h2>Number of Students:{{ getTotalStudents(course) }}</h2>
+    <p>Course Subjects:</p>
+    <ul>
+      <li *ngFor="let subject of course.subjects">
+        {{subject.name}}
+      </li>
+    </ul>
+  </div>
+</div>
