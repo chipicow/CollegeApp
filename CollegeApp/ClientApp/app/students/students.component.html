@@ -1,13 +1,42 @@
 <div class="container-fluid">
-  <div class="m-3" *ngFor="let student of students">
-    <h1>Student: {{student.name}}</h1>
+  <div class="row d-flex justify-content-end">
+    <button class="mr-2" (click)="onAdd()" mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="m-3" *ngFor="let student of students; let i = index">
+    <div class="row">
+      <h1 class="mr-2">Student: {{student.name}}</h1><button class="mr-2" (click)="onEdit(student)" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="delete(student.id)" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
     <h2>Number: {{student.registrationNumber}}</h2>
     <h2>Born: {{student.birthday | date}}</h2>
     <p>Grades:</p>
     <ul>
       <li *ngFor="let studentSubject of student.studentSubjects">
         {{studentSubject.grade}} % in {{studentSubject.subject.name}}
+        <button class="ml-2" (click)="unassignFromSubject(studentSubject)" mat-raised-button>
+          Drop out
+        </button>
       </li>
     </ul>
+    <button (click)="assignToSubject(i)" mat-raised-button>
+      Assign to a new subject
+    </button>
+    <div class="row" *ngIf="i == assigningIndex">
+      <mat-select class="col-3" #currentSelect [placeholder]="'Select Subject'">
+        <mat-option [disabled]="!isValidSubject(student.studentSubjects,subject)" *ngFor="let subject of subjects"
+          [value]="subject.id">
+          {{subject.name}}
+        </mat-option>
+      </mat-select>
+      <button (click)="assign(student.id,currentSelect)" mat-raised-button>
+        Save
+      </button>
+    </div>
   </div>
 </div>

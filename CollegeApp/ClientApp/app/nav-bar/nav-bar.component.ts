@@ -14,7 +14,8 @@ export class NavBarComponent implements OnInit {
     this.components.push(
       { name: 'Courses', route: 'courses' },
       { name: 'Subjects', route: 'subjects' },
-      { name: 'Students', route: 'students' });
+      { name: 'Students', route: 'students' },
+      { name: 'Teachers', route: 'teachers' });
   }
 
   goTo(link: string) {

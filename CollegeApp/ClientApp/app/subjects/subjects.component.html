@@ -1,6 +1,19 @@
 <div class="container-fluid">
+  <div class="row d-flex justify-content-end">
+    <button class="mr-2" (click)="onAdd()" mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
   <div class="m-3" *ngFor="let subject of subjects">
-    <h1>{{subject.name}}</h1>
+
+    <div class="row">
+      <h1 class="mr-2">{{subject.name}}</h1> <button class="mr-2" (click)="onEdit(subject)" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="delete(subject.id)" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
     <h2>Teacher: {{subject.teacher.name}}</h2>
     <h2>Born: {{subject.teacher.birthday | date}}</h2>
     <h2>Salary: {{subject.teacher.salary}}</h2>

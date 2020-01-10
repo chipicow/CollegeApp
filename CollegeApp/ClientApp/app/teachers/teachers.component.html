@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row d-flex justify-content-end">
+    <button class="mr-2" (click)="onAdd()" mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="m-3" *ngFor="let teacher of teachers">
+    <div class="row">
+      <h1 class="mr-2">Student: {{teacher.name}}</h1><button class="mr-2" (click)="onEdit(teacher)" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="delete(teacher.id)" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <h2>Salaray: {{teacher.salary| currency:'EUR'}}</h2>
+    <h2>Born: {{teacher.birthday | date}}</h2>
+  </div>
+</div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 
 @Component({
   selector: 'app-courses',
@@ -7,23 +9,49 @@ import { AppService } from '../app.service';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
-
+  editableKeys = ['name'];
   courses: Array<any>;
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.appService.getCourses().subscribe((res: any) => this.courses = res);
   }
 
-
-  edit(course: any) {
-    course.name = 'Edited this name'
-    this.appService.updateCourse(course).subscribe(
-      _ => {
-        let courseIndex = this.courses.findIndex(c => c.id == course.id);
-        this.courses[courseIndex] = course;
+  onEdit(course: any) {
+    this.dialog.open(GenericModalComponent, {
+      data: {
+        entity: course,
+        entityName: 'Course',
+        editableKeys: this.editableKeys
       }
-    );
+    }).afterClosed().subscribe(res => {
+      if (res != null) {
+        this.appService.updateCourse(res).subscribe(
+          _ => {
+            let courseIndex = this.courses.findIndex(c => c.id == res.id);
+            this.courses[courseIndex] = res;
+          }
+        );
+      }
+    });
+  }
+
+  onAdd() {
+    this.dialog.open(GenericModalComponent, {
+      data: {
+        entity: { name: '' },
+        entityName: 'Course',
+        editableKeys: this.editableKeys
+      }
+    }).afterClosed().subscribe(res => {
+      if (res != null) {
+        this.appService.addCourse(res).subscribe(
+          courseFromDb => {
+            this.courses.push(courseFromDb);
+          }
+        );
+      }
+    });
   }
 
   delete(id: string) {
@@ -53,5 +81,11 @@ export class CoursesComponent implements OnInit {
       }
     });
     return teachers.length;
+  }
+
+  removeSubject(subjectId: string) {
+    this.appService.deleteSubject(subjectId).subscribe(_ => {
+      this.appService.getCourses().subscribe((res: any) => this.courses = res);
+    });
   }
 }

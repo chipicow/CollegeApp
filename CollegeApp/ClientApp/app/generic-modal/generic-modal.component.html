@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{entityName}}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <div *ngFor="let key of editableKeys" class="col-md-12 col-lg-6" [ngSwitch]="getType(key)">
+
+      <mat-form-field *ngSwitchCase="'string'">
+        <input matInput [placeholder]="key | titlecase" [formControlName]="key">
+      </mat-form-field>
+      <mat-select *ngSwitchCase="'select'" [placeholder]="key | titlecase" [formControlName]="key">
+        <mat-option *ngFor="let item of getList(key)" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+
+      <mat-form-field *ngSwitchCase="'date'">
+        <input matInput [matDatepicker]="picker" [placeholder]="key | titlecase" [formControlName]="key"
+          [formControlName]="key">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-between">
+  <button mat-button mat-dialog-close><span>Cancel</span></button>
+  <button mat-raised-button (click)="onSave()"><span>Save</span></button>
+</mat-dialog-actions>

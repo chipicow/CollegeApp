@@ -1,17 +1,26 @@
 <div class="container-fluid">
+  <div class="row d-flex justify-content-end">
+    <button class="mr-2" (click)="onAdd()" mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
   <div class="m-3" *ngFor="let course of courses">
-    <h1>{{course.name}} <button class="mr-2" (click)="edit(course)" mat-icon-button>
+    <div class="row">
+      <h1 class="mr-2">{{course.name}}</h1><button class="mr-2" (click)="onEdit(course)" mat-icon-button>
         <mat-icon>edit</mat-icon>
       </button>
       <button (click)="delete(course.id)" mat-icon-button>
         <mat-icon>delete</mat-icon>
-      </button></h1>
-    <h2>Number of Teachers: 0</h2>
+      </button>
+    </div>
+    <h2>Number of Teachers: {{ getTotalTeachers(course) }}</h2>
     <h2>Number of Students:{{ getTotalStudents(course) }}</h2>
     <p>Course Subjects:</p>
     <ul>
       <li *ngFor="let subject of course.subjects">
-        {{subject.name}}
+        {{subject.name}}<button class="ml-2" (click)="removeSubject(subject.id)" mat-raised-button>
+          Remove subject
+        </button>
       </li>
     </ul>
   </div>

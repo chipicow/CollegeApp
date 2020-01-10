@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CollegeApp.Controllers
@@ -42,18 +43,19 @@ namespace CollegeApp.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
         /// <summary>
         /// Deassign a student from a subject
         /// </summary>
         [HttpDelete("{id}/deassign/{subjectId}")]
         public virtual async Task<ActionResult> DeassignFromSubject([FromRoute]Guid id, Guid subjectId)
         {
-            var studentAssign = new StudentSubjects()
+            var studenSubject = await _context.StudentSubjects.Where(ss => ss.StudentId == id && ss.SubjectId == subjectId).FirstOrDefaultAsync();
+            if (studenSubject == null)
             {
-                StudentId = id,
-                SubjectId = subjectId
-            };
-            await _context.StudentSubjects.AddAsync(studentAssign);
+                return NotFound();
+            }
+            _context.Remove(studenSubject);
             await _context.SaveChangesAsync();
             return NoContent();
         }
