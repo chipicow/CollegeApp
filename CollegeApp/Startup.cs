@@ -56,6 +56,13 @@ namespace CollegeApp
                 Console.WriteLine($"Failed to migrate or seed database: {ex.Message}");
             }
 
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.AllowAnyOrigin();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
